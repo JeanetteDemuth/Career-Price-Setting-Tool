@@ -276,12 +276,27 @@ button{touch-action:manipulation;-webkit-user-select:none;user-select:none;-webk
   .inputs>.numfield .numrow button{flex-basis:32px;min-width:32px;width:32px}
   .inputs>.numfield .numrow input{font-size:15px}
 }
+
+/* Rolige fold-ud-grupper til timeaktiviteter */
+#activities{display:grid;gap:10px}
+.activity-group{border:1px solid #e1d7d0;border-radius:17px;background:#fff;overflow:hidden}
+.activity-group summary{display:flex;align-items:center;gap:12px;list-style:none;cursor:pointer;padding:16px 17px;touch-action:manipulation}
+.activity-group summary::-webkit-details-marker{display:none}
+.activity-group summary:focus-visible{outline:3px solid #bb806c;outline-offset:-3px}
+.group-title{font-size:15px;font-weight:600;color:#433a36;flex:1;min-width:0}
+.group-total{white-space:nowrap;font-size:13px;color:#8a4c40;font-weight:600;background:#f5ede8;border-radius:20px;padding:5px 9px}
+.group-arrow{font-size:23px;line-height:1;color:#8a4c40;transition:transform .2s}
+.activity-group[open] .group-arrow{transform:rotate(180deg)}
+.activity-group[open] summary{border-bottom:1px solid #eee6e0;background:#fcf9f7}
+.group-body{padding:6px 16px 10px}
+.group-body .activity:last-child{border-bottom:0}
+@media(max-width:520px){.activity-group summary{padding:13px 12px;gap:7px}.group-title{font-size:13px}.group-total{font-size:12px;padding:4px 7px}.group-body{padding:4px 11px 8px}}
 </style></head><body>
 <div class="wrap header"><div class="brand">Career<small>a JKS Company</small></div><div class="header-line"></div></div>
 <section class="wrap hero"><div class="eyebrow">PRISSÆTNING AF REKRUTTERINGSOPGAVER</div><h1>Career <span class="accent">Price Setting</span> Tool</h1><p>Vælg rekrutteringsprodukt, tilpas forudsætningerne og få et overskueligt prisforslag med det samme.</p></section>
 <main class="wrap main-grid"><section class="panel"><div class="panel-inner"><h2>Beregningsgrundlag</h2><p class="panel-intro">Tilpas tallene til den konkrete opgave. Resultatet opdateres automatisk.</p>
 <div class="section-head"><div class="section-no">01</div><div><div class="section-title">Vælg produkt</div><p class="section-sub">Fire typer rekrutteringsopgaver</p></div></div><div class="products" id="products"></div>
-<div id="standard" class="section"><div class="section-head"><div class="section-no">02</div><div><div class="section-title">Timeforbrug og tillæg</div><p class="section-sub">Tilpas arbejdsopgaver, timepris og omkostninger</p></div></div><div class="inputs" id="standardFields"></div><div class="section" style="margin-top:20px"><div class="block-title">Opgaver og estimerede timer</div><div id="activities"></div></div><div class="section"><div class="section-head"><div class="section-no">03</div><div><div class="section-title">Justér tilbudsprisen</div><p class="section-sub">Valgfri rabat eller aftalt pris</p></div></div><div class="inputs" id="offerFields"></div></div></div>
+<div id="standard" class="section"><div class="section-head"><div class="section-no">02</div><div><div class="section-title">Timeforbrug og tillæg</div><p class="section-sub">Tilpas arbejdsopgaver, timepris og omkostninger</p></div></div><div class="inputs" id="standardFields"></div><div class="section" style="margin-top:20px"><div class="block-title">Opgaver og estimerede timer</div><p class="fineprint">Åbn en kategori for at tilpasse timer. Summen vises også, når kategorien er lukket.</p><div id="activities"></div></div><div class="section"><div class="section-head"><div class="section-no">03</div><div><div class="section-title">Justér tilbudsprisen</div><p class="section-sub">Valgfri rabat eller aftalt pris</p></div></div><div class="inputs" id="offerFields"></div></div></div>
 <div id="framework" class="section" hidden><div class="section-head"><div class="section-no">02</div><div><div class="section-title">Rammeaftale</div><p class="section-sub">Beregn pris på baggrund af medarbejderens samlede lønpakke</p></div></div><p class="block-title">Vælg løntype</p><div class="option-row"><button type="button" class="option" id="byHour">Timeløn</button><button type="button" class="option" id="byMonth">Månedsløn</button></div><div class="inputs" id="frameworkFields"></div><p class="fineprint" style="margin-top:15px">Ved timeløn omregnes til månedsløn ud fra antal timer pr. uge × 52 / 12. Pension og fritvalg beregnes begge af grundlønnen. Rekrutteringshonoraret beregnes af den årlige lønpakke inklusive pension og fritvalg.</p></div>
 </div></section><aside class="panel summary-card"><div class="summary-header"><h3>Prisoverblik</h3><p id="selectedName"></p></div><div class="summary-body"><div class="price-hero"><div>Anbefalet pris på opgaven</div><div class="big" id="totalPrice">0 kr.</div><div>Alle beløb ekskl. moms</div></div><div class="results" style="margin-top:22px" id="resultLines"></div><div class="note" id="notice"></div><div class="action-row"><button class="btn secondary" id="copy">Kopiér beregning</button><button class="btn primary" id="print">Udskriv / PDF</button></div><p class="footer-note">Internt prissætningsværktøj. Alle beregninger foretages i din browser. Kontroller forudsætninger og pris før tilbud til kunden.</p></div></aside></main>
 <script>
@@ -296,8 +311,41 @@ const val=s=>{let v=String(s).replace(/\s/g,'').replace(/\./g,'').replace(',','.
 const rows=(items)=>items.map(([k,v])=>`<div class="price-line"><span>${k}</span><strong>${v}</strong></div>`).join('');
 function field(label,obj,key,step,unit='kr.',action=calculate){const id='f'+key+'_'+Math.random().toString(36).slice(2,9);const wrap=document.createElement('div');wrap.className='numfield';wrap.innerHTML=`<label for="${id}">${label}</label><div class="numrow"><button type="button" aria-label="Reducer ${label}">−</button><input id="${id}" inputmode="decimal"><button type="button" aria-label="Forøg ${label}">+</button></div>`;const input=wrap.querySelector('input');const set=()=>input.value=(obj[key]===null?'':fmt(obj[key]));set();input.addEventListener('input',()=>{obj[key]=(key==='rate' && input.value.trim()==='')?null:val(input.value);action()});input.addEventListener('blur',set);wrap.querySelectorAll('button').forEach((b,i)=>b.addEventListener('click',()=>{obj[key]=Math.max(0,Math.round(((obj[key]??0)+step*(i?1:-1))*100)/100);set();action()}));return wrap}
 function productButtons(){const el=document.getElementById('products');el.replaceChildren();products.forEach((name,i)=>{const b=document.createElement('button');b.className='choice'+(i===active?' active':'');b.textContent=name;b.type='button';b.setAttribute('aria-pressed',String(i===active));b.onclick=()=>{active=i;render()};el.append(b)})}
-function activitiesUI(){const el=document.getElementById('activities');el.replaceChildren();standard[active].activities.forEach((_,i)=>{const line=document.createElement('div');line.className='activity';const title=document.createElement('span');title.textContent=names[i];line.append(title,field('Timer',standard[active].activities,i,.5,'timer'));el.append(line)});
-// field() also supports array indices, and recalculates live
+const categories=[
+  {name:'Forberedelse og opstart',indexes:[0,1,2]},
+  {name:'Annoncering og search',indexes:[3,4,7,8]},
+  {name:'Screening og interviews',indexes:[5,6,9,10,11]},
+  {name:'Test og referencer',indexes:[12,13,14]},
+  {name:'Afslutning og opfølgning',indexes:[15,16,17,18,19]}
+];
+const openedCategories={};
+function updateCategoryTotals(){
+  document.querySelectorAll('.activity-group').forEach(group=>{
+    const k=Number(group.dataset.cat);
+    const total=categories[k].indexes.reduce((s,i)=>s+standard[active].activities[i],0);
+    group.querySelector('.group-total').textContent=fmt(total)+' timer';
+  });
+}
+function activitiesUI(){
+  const el=document.getElementById('activities');el.replaceChildren();
+  categories.forEach((cat,k)=>{
+    const details=document.createElement('details');details.className='activity-group';details.dataset.cat=k;
+    details.open=Boolean(openedCategories[active+':'+k]);
+    const summary=document.createElement('summary');
+    summary.innerHTML=`<span class="group-title">${cat.name}</span><span class="group-total"></span><span class="group-arrow" aria-hidden="true">⌄</span>`;
+    details.append(summary);
+    const body=document.createElement('div');body.className='group-body';
+    cat.indexes.forEach(i=>{
+      const line=document.createElement('div');line.className='activity';
+      const title=document.createElement('span');title.textContent=names[i];
+      line.append(title,field('Timer',standard[active].activities,i,.5,'timer',()=>{calculate();updateCategoryTotals()}));
+      body.append(line);
+    });
+    details.append(body);
+    details.addEventListener('toggle',()=>{openedCategories[active+':'+k]=details.open});
+    el.append(details);
+  });
+  updateCategoryTotals();
 }
 function standardUI(){const d=standard[active],inputs=document.getElementById('standardFields');inputs.replaceChildren(field('Konsulenttimepris',d,'rate',25),field('Testværktøjer',d,'test',500),field('Stillingsannoncer',d,'posting',500),field('Øvrige omkostninger',d,'other',250));document.getElementById('offerFields').replaceChildren(field('Rabat (%)',d,'discount',1,'%'),field('Manuel tilbudspris',d,'manual',500));activitiesUI()}
 function frameUI(){document.getElementById('byHour').classList.toggle('selected',frame.mode==='hour');document.getElementById('byMonth').classList.toggle('selected',frame.mode==='month');document.getElementById('frameworkFields').replaceChildren(...(frame.mode==='hour'?[field('Timeløn (kr.)',frame,'hourly',5),field('Timer pr. uge',frame,'weekHours',.5,'timer')]:[field('Månedsløn (kr.)',frame,'monthly',500)]),field('Pension (%)',frame,'pension',.5,'%'),field('Fritvalg (%)',frame,'free',.5,'%'),field('Rekrutteringshonorar (%)',frame,'fee',.5,'%'),field('Øvrige tillæg (kr.)',frame,'extras',500))}
