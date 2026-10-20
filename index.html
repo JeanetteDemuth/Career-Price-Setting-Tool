@@ -289,6 +289,8 @@ button{touch-action:manipulation;-webkit-user-select:none;user-select:none;-webk
   .inputs>.numfield .numrow input{font-size:15px}
 }
 
+.collapse-tools{display:flex;justify-content:flex-end;margin:0 0 10px}
+.collapse-all{background:transparent;border:1px solid #dfd0c7;border-radius:14px;padding:8px 13px;font-size:13px;font-weight:600;color:var(--wine-dark);touch-action:manipulation}
 /* Rolige fold-ud-grupper til timeaktiviteter */
 #activities{display:grid;gap:10px}
 .activity-group{border:1px solid #e1d7d0;border-radius:17px;background:#fff;overflow:hidden}
@@ -378,7 +380,7 @@ button{touch-action:manipulation;-webkit-user-select:none;user-select:none;-webk
 <section class="wrap price-intro"><div class="price-kicker">PRISSÆTNING AF REKRUTTERING</div><h1>Price Setting <span>Tool</span></h1><p>Beregn den rette pris på rekrutteringsopgaven – baseret på tidsforbrug, aktiviteter og omkostninger.</p></section>
 <main class="wrap main-grid"><section class="panel"><div class="panel-inner"><h2>Beregningsgrundlag</h2><p class="panel-intro">Tilpas tallene til den konkrete opgave. Resultatet opdateres automatisk.</p>
 <div class="section-head"><div class="section-no">01</div><div><div class="section-title">Vælg produkt</div></div></div><div class="top-reset-wrap"><button class="top-reset" type="button" id="resetTop">↺ Nulstil alle felter</button></div><div class="products" id="products"></div>
-<div id="standard" class="section"><div class="section-head"><div class="section-no">02</div><div><div class="section-title">Timeforbrug og tillæg</div><p class="section-sub">Tilpas arbejdsopgaver, timepris og omkostninger</p></div></div><div class="inputs" id="standardFields"></div><div class="section" style="margin-top:20px"><div class="block-title">Opgaver og estimerede timer</div><p class="fineprint">Åbn en kategori for at tilpasse timer. Summen vises også, når kategorien er lukket.</p><div id="activities"></div></div><div class="section"><div class="section-head"><div class="section-no">03</div><div><div class="section-title">Justér tilbudsprisen</div><p class="section-sub">Valgfri rabat eller aftalt pris</p></div></div><div class="inputs" id="offerFields"></div></div></div>
+<div id="standard" class="section"><div class="section-head"><div class="section-no">02</div><div><div class="section-title">Timeforbrug og tillæg</div><p class="section-sub">Tilpas arbejdsopgaver, timepris og omkostninger</p></div></div><div class="inputs" id="standardFields"></div><div class="section" style="margin-top:20px"><div class="block-title">Opgaver og estimerede timer</div><p class="fineprint">Åbn en kategori for at tilpasse timer. Summen vises også, når kategorien er lukket.</p><div class="collapse-tools"><button id="collapseAll" type="button" class="collapse-all">Fold alle sammen ↑</button></div><div id="activities"></div></div><div class="section"><div class="section-head"><div class="section-no">03</div><div><div class="section-title">Justér tilbudsprisen</div><p class="section-sub">Valgfri rabat eller aftalt pris</p></div></div><div class="inputs" id="offerFields"></div></div></div>
 <div id="framework" class="section" hidden><div class="section-head"><div class="section-no">02</div><div><div class="section-title">Rammeaftale</div><p class="section-sub">Beregn pris på baggrund af medarbejderens samlede lønpakke</p></div></div><p class="block-title">Vælg løntype</p><div class="option-row"><button type="button" class="option" id="byHour">Timeløn</button><button type="button" class="option" id="byMonth">Månedsløn</button></div><div class="inputs" id="frameworkFields"></div><p class="fineprint" style="margin-top:15px">Ved timeløn omregnes til månedsløn ud fra antal timer pr. uge × 52 / 12. Pension og fritvalg beregnes begge af grundlønnen. Rekrutteringshonoraret beregnes af den årlige lønpakke inklusive pension og fritvalg.</p></div>
 </div></section><aside class="panel summary-card"><div class="summary-header"><h3>Prisoverblik</h3><p id="selectedName"></p></div><div class="summary-body"><div class="price-hero"><div>Anbefalet pris på opgaven</div><div class="big" id="totalPrice">0 kr.</div><div>Alle beløb ekskl. moms</div></div><div class="results" style="margin-top:22px" id="resultLines"></div><div class="note" id="notice"></div><div class="action-row"><button class="btn secondary" id="copy">Kopiér beregning</button><button class="btn primary" id="print">Udskriv / PDF</button></div><div class="action-row"><button class="btn reset-button" type="button" id="resetAll">↺ Nulstil alle felter</button></div><p class="footer-note">Internt prissætningsværktøj. Alle beregninger foretages i din browser. Kontroller forudsætninger og pris før tilbud til kunden.</p></div></aside></main>
 <script>
@@ -426,6 +428,12 @@ function activitiesUI(){
       body.append(line);
     });
     details.append(body);
+    summary.addEventListener('click',event=>{
+      event.preventDefault();
+      const next=!details.open;
+      details.open=next;
+      openedCategories[active+':'+k]=next;
+    });
     details.addEventListener('toggle',()=>{openedCategories[active+':'+k]=details.open});
     el.append(details);
   });
@@ -447,6 +455,12 @@ function resetAllFields(){
   allCleared=true;
   render();
 }
+document.getElementById('collapseAll').addEventListener('click',()=>{
+  document.querySelectorAll('#activities .activity-group').forEach(group=>{
+    group.open=false;
+    openedCategories[active+':'+group.dataset.cat]=false;
+  });
+});
 document.getElementById('resetAll').addEventListener('click',resetAllFields);
 document.getElementById('resetTop').addEventListener('click',resetAllFields);
 document.getElementById('byHour').onclick=()=>{frame.mode='hour';frameUI();calculate()};document.getElementById('byMonth').onclick=()=>{frame.mode='month';frameUI();calculate()};document.getElementById('print').onclick=()=>window.print();document.getElementById('copy').onclick=async()=>{const c=calculate();const txt='Career – '+products[active]+'\n'+c.items.map(([k,v])=>k+': '+v).join('\n')+'\nSamlet pris: '+(c.price===null?'Afventer timepris':money(c.price)+' ekskl. moms');try{await navigator.clipboard.writeText(txt);document.getElementById('copy').textContent='Kopieret ✓';setTimeout(()=>document.getElementById('copy').textContent='Kopiér beregning',1800)}catch(e){window.prompt('Kopiér beregningen',txt)}};
