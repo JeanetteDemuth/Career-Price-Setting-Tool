@@ -374,14 +374,23 @@ button{touch-action:manipulation;-webkit-user-select:none;user-select:none;-webk
 .top-reset{background:transparent;border:1px solid #dccfc8;border-radius:14px;color:var(--wine-dark);padding:9px 15px;font-size:14px;font-weight:600;touch-action:manipulation}
 .top-reset:active{background:var(--sand)}
 @media(max-width:520px){.top-reset-wrap{margin:-5px 0 16px}.top-reset{font-size:13px;padding:9px 12px}}
+
+/* Aabne/lukke sektion 1 og 2, med tilgaengelige klikflader. */
+.section-toggle{width:100%;background:transparent;border:0;text-align:left;padding:0;color:inherit;cursor:pointer;touch-action:manipulation}
+.section-toggle .section-toggle-text{display:flex;flex-direction:column;flex:1;min-width:0}
+.section-toggle .section-sub{display:block}
+.toggle-chevron{font-size:25px;font-weight:400;color:var(--wine-dark);transform:rotate(180deg);transition:transform .15s;line-height:1}
+.section-toggle[aria-expanded="false"] .toggle-chevron{transform:rotate(0)}
+.section-toggle:focus-visible{outline:2px solid var(--clay);outline-offset:5px;border-radius:8px}
+#productContent[hidden],#calculationContent[hidden],#frameworkContent[hidden]{display:none!important}
 </style></head><body>
 <div class="wrap header"><div class="brand-lockup"><div class="brand">Career<small>a JKS Company</small></div></div><div class="header-line"></div></div>
 
 <section class="wrap price-intro"><div class="price-kicker">PRISSÆTNING AF REKRUTTERING</div><h1>Price Setting <span>Tool</span></h1><p>Beregn den rette pris på rekrutteringsopgaven – baseret på tidsforbrug, aktiviteter og omkostninger.</p></section>
 <main class="wrap main-grid"><section class="panel"><div class="panel-inner"><h2>Beregningsgrundlag</h2><p class="panel-intro">Tilpas tallene til den konkrete opgave. Resultatet opdateres automatisk.</p>
-<div class="section-head"><div class="section-no">01</div><div><div class="section-title">Vælg produkt</div></div></div><div class="top-reset-wrap"><button class="top-reset" type="button" id="resetTop">↺ Nulstil alle felter</button></div><div class="products" id="products"></div>
-<div id="standard" class="section"><div class="section-head"><div class="section-no">02</div><div><div class="section-title">Timeforbrug og tillæg</div><p class="section-sub">Tilpas arbejdsopgaver, timepris og omkostninger</p></div></div><div class="inputs" id="standardFields"></div><div class="section" style="margin-top:20px"><div class="block-title">Opgaver og estimerede timer</div><p class="fineprint">Åbn en kategori for at tilpasse timer. Summen vises også, når kategorien er lukket.</p><div class="collapse-tools"><button id="collapseAll" type="button" class="collapse-all">Fold alle sammen ↑</button></div><div id="activities"></div></div><div class="section"><div class="section-head"><div class="section-no">03</div><div><div class="section-title">Justér tilbudsprisen</div><p class="section-sub">Valgfri rabat eller aftalt pris</p></div></div><div class="inputs" id="offerFields"></div></div></div>
-<div id="framework" class="section" hidden><div class="section-head"><div class="section-no">02</div><div><div class="section-title">Rammeaftale</div><p class="section-sub">Beregn pris på baggrund af medarbejderens samlede lønpakke</p></div></div><p class="block-title">Vælg løntype</p><div class="option-row"><button type="button" class="option" id="byHour">Timeløn</button><button type="button" class="option" id="byMonth">Månedsløn</button></div><div class="inputs" id="frameworkFields"></div><p class="fineprint" style="margin-top:15px">Ved timeløn omregnes til månedsløn ud fra antal timer pr. uge × 52 / 12. Pension og fritvalg beregnes begge af grundlønnen. Rekrutteringshonoraret beregnes af den årlige lønpakke inklusive pension og fritvalg.</p></div>
+<button type="button" class="section-head section-toggle" id="toggleProduct" aria-expanded="true" aria-controls="productContent"><span class="section-no">01</span><span class="section-toggle-text"><span class="section-title">Vælg produkt</span></span><span class="toggle-chevron" aria-hidden="true">⌄</span></button><div class="top-reset-wrap"><button class="top-reset" type="button" id="resetTop">↺ Nulstil alle felter</button></div><div id="productContent"><div class="products" id="products"></div></div>
+<div id="standard" class="section"><button type="button" class="section-head section-toggle" id="toggleCalculation" aria-expanded="true" aria-controls="calculationContent"><span class="section-no">02</span><span class="section-toggle-text"><span class="section-title">Timeforbrug og tillæg</span><span class="section-sub">Tilpas arbejdsopgaver, timepris og omkostninger</span></span><span class="toggle-chevron" aria-hidden="true">⌄</span></button><div id="calculationContent"><div class="inputs" id="standardFields"></div><div class="section" style="margin-top:20px"><div class="block-title">Opgaver og estimerede timer</div><p class="fineprint">Åbn en kategori for at tilpasse timer. Summen vises også, når kategorien er lukket.</p><div class="collapse-tools"><button id="collapseAll" type="button" class="collapse-all">Fold alle sammen ↑</button></div><div id="activities"></div></div></div><div class="section"><div class="section-head"><div class="section-no">03</div><div><div class="section-title">Justér tilbudsprisen</div><p class="section-sub">Valgfri rabat eller aftalt pris</p></div></div><div class="inputs" id="offerFields"></div></div></div>
+<div id="framework" class="section" hidden><button type="button" class="section-head section-toggle" id="toggleFramework" aria-expanded="true" aria-controls="frameworkContent"><span class="section-no">02</span><span class="section-toggle-text"><span class="section-title">Rammeaftale</span><span class="section-sub">Beregn pris på baggrund af medarbejderens samlede lønpakke</span></span><span class="toggle-chevron" aria-hidden="true">⌄</span></button><div id="frameworkContent"><p class="block-title">Vælg løntype</p><div class="option-row"><button type="button" class="option" id="byHour">Timeløn</button><button type="button" class="option" id="byMonth">Månedsløn</button></div><div class="inputs" id="frameworkFields"></div><p class="fineprint" style="margin-top:15px">Ved timeløn omregnes til månedsløn ud fra antal timer pr. uge × 52 / 12. Pension og fritvalg beregnes begge af grundlønnen. Rekrutteringshonoraret beregnes af den årlige lønpakke inklusive pension og fritvalg.</p></div></div>
 </div></section><aside class="panel summary-card"><div class="summary-header"><h3>Prisoverblik</h3><p id="selectedName"></p></div><div class="summary-body"><div class="price-hero"><div>Anbefalet pris på opgaven</div><div class="big" id="totalPrice">0 kr.</div><div>Alle beløb ekskl. moms</div></div><div class="results" style="margin-top:22px" id="resultLines"></div><div class="note" id="notice"></div><div class="action-row"><button class="btn secondary" id="copy">Kopiér beregning</button><button class="btn primary" id="print">Udskriv / PDF</button></div><div class="action-row"><button class="btn reset-button" type="button" id="resetAll">↺ Nulstil alle felter</button></div><p class="footer-note">Internt prissætningsværktøj. Alle beregninger foretages i din browser. Kontroller forudsætninger og pris før tilbud til kunden.</p></div></aside></main>
 <script>
 const products=['Fuld rekrutteringsproces','Headhunting','Shortlist','Rammeaftale'];
@@ -428,12 +437,6 @@ function activitiesUI(){
       body.append(line);
     });
     details.append(body);
-    summary.addEventListener('click',event=>{
-      event.preventDefault();
-      const next=!details.open;
-      details.open=next;
-      openedCategories[active+':'+k]=next;
-    });
     details.addEventListener('toggle',()=>{openedCategories[active+':'+k]=details.open});
     el.append(details);
   });
@@ -464,5 +467,18 @@ document.getElementById('collapseAll').addEventListener('click',()=>{
 document.getElementById('resetAll').addEventListener('click',resetAllFields);
 document.getElementById('resetTop').addEventListener('click',resetAllFields);
 document.getElementById('byHour').onclick=()=>{frame.mode='hour';frameUI();calculate()};document.getElementById('byMonth').onclick=()=>{frame.mode='month';frameUI();calculate()};document.getElementById('print').onclick=()=>window.print();document.getElementById('copy').onclick=async()=>{const c=calculate();const txt='Career – '+products[active]+'\n'+c.items.map(([k,v])=>k+': '+v).join('\n')+'\nSamlet pris: '+(c.price===null?'Afventer timepris':money(c.price)+' ekskl. moms');try{await navigator.clipboard.writeText(txt);document.getElementById('copy').textContent='Kopieret ✓';setTimeout(()=>document.getElementById('copy').textContent='Kopiér beregning',1800)}catch(e){window.prompt('Kopiér beregningen',txt)}};
+
+function wireSectionToggle(buttonId,contentId){
+  const button=document.getElementById(buttonId);
+  const content=document.getElementById(contentId);
+  button.addEventListener('click',()=>{
+    const expanded=button.getAttribute('aria-expanded')==='true';
+    button.setAttribute('aria-expanded',String(!expanded));
+    content.hidden=expanded;
+  });
+}
+wireSectionToggle('toggleProduct','productContent');
+wireSectionToggle('toggleCalculation','calculationContent');
+wireSectionToggle('toggleFramework','frameworkContent');
 render();
 </script></body></html>
