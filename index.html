@@ -159,6 +159,34 @@ button{cursor:pointer}
 .results{display:grid;gap:12px}.price-line{display:flex;justify-content:space-between;gap:18px;align-items:baseline;border-bottom:1px solid #e8dfda;padding:8px 0}.price-line strong{text-align:right;font-variant-numeric:tabular-nums}.price-hero{background:var(--wine);color:white;padding:25px;border-radius:25px}.price-hero .big{font-size:clamp(30px,4vw,48px);font-weight:850;letter-spacing:-1px}.fineprint{color:var(--muted);font-size:13px}.act{background:var(--wine);border:0;color:white;border-radius:14px;padding:12px 18px;font-weight:800}.act.alt{background:white;border:1px solid var(--wine);color:var(--wine)}
 @media(max-width:600px){.products,.inputs{grid-template-columns:1fr 1fr}.activity{grid-template-columns:1fr}.panel-inner{padding:22px}.numrow button{min-width:45px}.numrow input{font-size:19px}.section-title{font-size:21px}.hero h1{font-size:36px;overflow-wrap:break-word}}
 @media(max-width:390px){.inputs{grid-template-columns:1fr}.products{grid-template-columns:1fr 1fr}}
+
+/* Mobil: fuld bredde til hver beregning og tydelige, læsbare beløb */
+.numfield,.inputs>*,.activity,.activity>*{min-width:0}
+.numrow{width:100%;min-width:0}
+.numrow input{flex:1 1 auto;min-width:0;width:1%;text-align:left;font-variant-numeric:tabular-nums}
+.numrow button{flex:0 0 54px}
+@media(max-width:900px){
+  .inputs{grid-template-columns:minmax(0,1fr)!important;gap:22px!important}
+  .numfield label{font-size:16px;line-height:1.35}
+  .numrow{gap:10px}
+  .numrow input{width:1%;font-size:23px;padding:15px 16px;min-height:60px}
+  .numrow button{flex-basis:60px;min-width:60px;min-height:60px;font-size:28px}
+  .activity{grid-template-columns:minmax(0,1fr);gap:8px}
+  .activity .numrow button{flex-basis:54px;min-width:54px}
+  .activity .numrow input{font-size:20px}
+}
+@media(max-width:520px){
+  .wrap{padding-inline:20px}
+  .panel-inner{padding:22px!important}
+  .products{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px}
+  .choice{min-height:76px;padding:12px 9px;font-size:14px;overflow-wrap:anywhere}
+  .numrow button{flex-basis:58px;min-width:58px}
+  .numrow input{font-size:22px;letter-spacing:0}
+  .section-title{overflow-wrap:break-word}
+  .price-line{align-items:flex-start}
+  .price-line span{min-width:0;flex:1}
+  .price-line strong{max-width:48%;overflow-wrap:anywhere}
+}
 </style></head><body>
 <div class="wrap header"><div class="brand">Career<small>a JKS Company</small></div><div class="header-line"></div></div>
 <section class="wrap hero"><div class="eyebrow">PRISSÆTNING AF REKRUTTERINGSOPGAVER</div><h1>Career <span class="accent">Price Setting</span> Tool</h1><p>Vælg rekrutteringsprodukt, tilpas forudsætningerne og få et overskueligt prisforslag med det samme.</p></section>
