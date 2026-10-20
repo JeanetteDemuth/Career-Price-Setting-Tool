@@ -187,6 +187,36 @@ button{cursor:pointer}
   .price-line span{min-width:0;flex:1}
   .price-line strong{max-width:48%;overflow-wrap:anywhere}
 }
+
+/* Mobile: hurtige gentagne tryk paa +/- maa ikke aktivere dobbelttryk-zoom. */
+.numrow button,.mini-btn,.ctrlbtn{
+  touch-action:manipulation;
+  -webkit-user-select:none;
+  user-select:none;
+  -webkit-tap-highlight-color:transparent;
+}
+/* Holder almindelig knapbetjening fri for dobbeltklik-markering. */
+button{touch-action:manipulation}
+/* Finpudsning: lettere typografi og zoomfri trykbetjening */
+html,body{touch-action:manipulation}
+button{touch-action:manipulation;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+.panel h2{font-weight:700}
+.section-title{font-weight:700;letter-spacing:-.45px}
+.section-no{font-weight:700}
+.block-title,.field label,.numfield label{font-weight:600}
+.choice{font-weight:600}
+.numrow input{font-weight:600}
+.price-hero .big{font-weight:700}
+.option,.act,.btn{font-weight:650}
+@media(max-width:600px){
+  .products{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px}
+  .products .choice:first-child{grid-column:1/-1;white-space:nowrap;font-size:clamp(13px,3.6vw,16px);min-height:58px;overflow-wrap:normal;letter-spacing:-.3px}
+  .products .choice:last-child{grid-column:1/-1}
+  .products .choice{min-height:62px;font-weight:600}
+  .hero .eyebrow{font-weight:650;letter-spacing:2px}
+  .hero h1{font-weight:750}
+  .numfield label{font-weight:600}
+}
 </style></head><body>
 <div class="wrap header"><div class="brand">Career<small>a JKS Company</small></div><div class="header-line"></div></div>
 <section class="wrap hero"><div class="eyebrow">PRISSÆTNING AF REKRUTTERINGSOPGAVER</div><h1>Career <span class="accent">Price Setting</span> Tool</h1><p>Vælg rekrutteringsprodukt, tilpas forudsætningerne og få et overskueligt prisforslag med det samme.</p></section>
@@ -212,8 +242,9 @@ function activitiesUI(){const el=document.getElementById('activities');el.replac
 }
 function standardUI(){const d=standard[active],inputs=document.getElementById('standardFields');inputs.replaceChildren(field('Konsulenttimepris – indtastes af konsulenten',d,'rate',25),field('Testværktøjer',d,'test',500),field('Stillingsannoncer',d,'posting',500),field('Øvrige omkostninger',d,'other',250));document.getElementById('offerFields').replaceChildren(field('Rabat (%)',d,'discount',1,'%'),field('Manuel tilbudspris',d,'manual',500));activitiesUI()}
 function frameUI(){document.getElementById('byHour').classList.toggle('selected',frame.mode==='hour');document.getElementById('byMonth').classList.toggle('selected',frame.mode==='month');document.getElementById('frameworkFields').replaceChildren(...(frame.mode==='hour'?[field('Timeløn (kr.)',frame,'hourly',5),field('Timer pr. uge',frame,'weekHours',.5,'timer')]:[field('Månedsløn (kr.)',frame,'monthly',500)]),field('Pension (%)',frame,'pension',.5,'%'),field('Fritvalg (%)',frame,'free',.5,'%'),field('Rekrutteringshonorar (%)',frame,'fee',.5,'%'),field('Øvrige tillæg (kr.)',frame,'extras',500))}
-function calculate(){let items,price,note;if(active===3){const salary=frame.mode==='hour'?frame.hourly*frame.weekHours*52/12:frame.monthly;const pension=salary*frame.pension/100;const free=salary*frame.free/100;const pack=salary+pension+free;const annual=pack*12;const fee=annual*frame.fee/100;price=fee+frame.extras;items=[['Månedsløn',money(salary)],['Pension',money(pension)],['Fritvalg',money(free)],['Samlet månedlig lønpakke',money(pack)],['Årlig lønpakke (× 12)',money(annual)],['Rekrutteringshonorar',money(fee)],['Øvrige tillæg',money(frame.extras)]];note='Rekrutteringshonorar = årlig samlet lønpakke × honorarprocent. Øvrige tillæg lægges til.'}else{let d=standard[active];let hours=d.activities.reduce((a,b)=>a+b,0),needsRate=d.rate===null||d.rate<=0,process=hours*(d.rate??0),extras=d.test+d.posting+d.other,gross=process+extras,discount=gross*Math.min(d.discount,100)/100;price=needsRate?null:(d.manual>0?d.manual:gross-discount);items=[['Estimeret tidsforbrug',fmt(hours)+' timer'],['Konsulenttimepris',needsRate?'Afventer indtastning':money(d.rate)],['Procespris',money(process)],['Testværktøjer',money(d.test)],['Annoncer og øvrige tillæg',money(d.posting+d.other)],['Rabat',money(discount)],['Tilbudspris',price===null?'Afventer timepris':money(price)]];note=needsRate?'Start med at indtaste konsulenttimeprisen for at beregne et prisforslag.':(d.manual>0?'Den manuelle tilbudspris overstyrer beregnet pris og rabat.':'Tilpas aktiviteter og tillæg til den konkrete rekrutteringsopgave.')}document.getElementById('totalPrice').textContent=price===null?'Indtast timepris':money(price);document.getElementById('resultLines').innerHTML=rows(items);document.getElementById('notice').textContent=note;return {price,items}}
+function calculate(){let items,price,note;if(active===3){const salary=frame.mode==='hour'?frame.hourly*frame.weekHours*52/12:frame.monthly;const pension=salary*frame.pension/100;const free=salary*frame.free/100;const pack=salary+pension+free;const annual=pack*12;const fee=annual*frame.fee/100;price=fee+frame.extras;items=[['Månedsløn',money(salary)],['Pension',money(pension)],['Fritvalg',money(free)],['Samlet månedlig lønpakke',money(pack)],['Årlig lønpakke (× 12)',money(annual)],['Rekrutteringshonorar',money(fee)],['Øvrige tillæg',money(frame.extras)]];note='Rekrutteringshonorar = årlig samlet lønpakke × honorarprocent. Øvrige tillæg lægges til.';document.getElementById('totalPrice').textContent=money(price);document.getElementById('resultLines').innerHTML=rows(items);document.getElementById('notice').textContent=note;return {price,items}}else{let d=standard[active];let hours=d.activities.reduce((a,b)=>a+b,0),needsRate=d.rate===null||d.rate<=0,process=hours*(d.rate??0),extras=d.test+d.posting+d.other,gross=process+extras,discount=gross*Math.min(d.discount,100)/100;price=needsRate?null:(d.manual>0?d.manual:gross-discount);items=[['Estimeret tidsforbrug',fmt(hours)+' timer'],['Konsulenttimepris',needsRate?'Afventer indtastning':money(d.rate)],['Procespris',money(process)],['Testværktøjer',money(d.test)],['Annoncer og øvrige tillæg',money(d.posting+d.other)],['Rabat',money(discount)],['Tilbudspris',price===null?'Afventer timepris':money(price)]];note=needsRate?'Start med at indtaste konsulenttimeprisen for at beregne et prisforslag.':(d.manual>0?'Den manuelle tilbudspris overstyrer beregnet pris og rabat.':'Tilpas aktiviteter og tillæg til den konkrete rekrutteringsopgave.')}document.getElementById('totalPrice').textContent=price===null?'Indtast timepris':money(price);document.getElementById('resultLines').innerHTML=rows(items);document.getElementById('notice').textContent=note;return {price,items}}
 function render(){productButtons();document.getElementById('standard').hidden=active===3;document.getElementById('framework').hidden=active!==3;document.getElementById('selectedName').textContent=products[active];if(active===3)frameUI();else standardUI();calculate()}
+document.addEventListener('dblclick',e=>{if(e.target.closest('button'))e.preventDefault()});
 document.getElementById('byHour').onclick=()=>{frame.mode='hour';frameUI();calculate()};document.getElementById('byMonth').onclick=()=>{frame.mode='month';frameUI();calculate()};document.getElementById('print').onclick=()=>window.print();document.getElementById('copy').onclick=async()=>{const c=calculate();const txt='Career – '+products[active]+'\n'+c.items.map(([k,v])=>k+': '+v).join('\n')+'\nSamlet pris: '+(c.price===null?'Afventer timepris':money(c.price)+' ekskl. moms');try{await navigator.clipboard.writeText(txt);document.getElementById('copy').textContent='Kopieret ✓';setTimeout(()=>document.getElementById('copy').textContent='Kopiér beregning',1800)}catch(e){window.prompt('Kopiér beregningen',txt)}};
 render();
 </script></body></html>
