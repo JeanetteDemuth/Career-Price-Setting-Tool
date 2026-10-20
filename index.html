@@ -19,10 +19,15 @@ body{margin:0;background:var(--cream);font:16px/1.55 system-ui,-apple-system,"Se
 button,input{font:inherit}
 button{cursor:pointer}
 .wrap{max-width:1220px;margin:0 auto;padding:0 36px}
-.header{padding:42px 0 24px}
+.header{padding:34px 0 18px;text-align:center}
+.brand-lockup{display:flex;flex-direction:column;align-items:center;gap:10px}
+.brand-mark{display:grid;grid-template-columns:repeat(4,10px);gap:8px;width:max-content}
+.brand-mark span{width:10px;height:10px;border-radius:50%;background:var(--wine);opacity:.95}
+.brand-mark span:nth-child(2),.brand-mark span:nth-child(5),.brand-mark span:nth-child(8),.brand-mark span:nth-child(11){opacity:.55}
 .brand{font-size:64px;font-weight:800;letter-spacing:-3px;line-height:.95;color:var(--wine)}
-.brand small{display:block;margin-top:18px;font-size:16px;font-weight:500;letter-spacing:4px;color:#8c7f78;text-transform:uppercase}
-.header-line{height:1px;background:var(--line);margin-top:28px}
+.brand small{display:block;margin-top:14px;font-size:16px;font-weight:500;letter-spacing:4px;color:#8c7f78;text-transform:uppercase}
+.brand-tag{display:inline-flex;align-items:center;justify-content:center;padding:8px 18px;border-radius:999px;background:var(--sand);border:1px solid var(--sand-2);color:var(--wine-dark);font-size:13px;font-weight:800;letter-spacing:3px;text-transform:uppercase}
+.header-line{height:1px;background:var(--line);margin-top:24px}
 .hero{position:relative;overflow:hidden;padding:34px 0 42px}
 .hero:after{content:"";position:absolute;right:-180px;top:50px;width:540px;height:540px;border-radius:50%;background:rgba(190,164,151,.22);pointer-events:none}
 .eyebrow{position:relative;z-index:1;color:var(--wine-dark);font-size:16px;letter-spacing:4px;text-transform:uppercase;font-weight:800;margin-bottom:18px}
@@ -92,6 +97,8 @@ button{cursor:pointer}
 @media (max-width:860px){
   .wrap{padding:0 24px}
   .brand{font-size:54px}
+  .brand-mark{grid-template-columns:repeat(4,8px);gap:7px}
+  .brand-mark span{width:8px;height:8px}
   .hero{padding:22px 0 30px}
   .hero:after{right:-180px;top:120px;width:380px;height:380px}
   .hero h1{font-size:58px;letter-spacing:-2.5px}
@@ -107,7 +114,10 @@ button{cursor:pointer}
   .wrap{padding:0 26px}
   .header{padding:38px 0 18px}
   .brand{font-size:43px;letter-spacing:-2px}
-  .brand small{font-size:11px;letter-spacing:3px;margin-top:12px}
+  .brand small{font-size:11px;letter-spacing:3px;margin-top:10px}
+  .brand-tag{font-size:11px;letter-spacing:2.5px;padding:7px 14px}
+  .brand-mark{grid-template-columns:repeat(4,7px);gap:6px}
+  .brand-mark span{width:7px;height:7px}
   .eyebrow{font-size:12px;letter-spacing:2.2px;line-height:1.5;padding-right:6px;overflow-wrap:break-word}
   .hero h1{font-size:clamp(30px,8.1vw,38px);line-height:1.08;letter-spacing:-1.6px;max-width:100%;padding-right:4px;overflow-wrap:normal}
   .hero p{font-size:17px;line-height:1.55;margin-top:20px;max-width:100%;padding-right:12px}
@@ -293,11 +303,76 @@ button{touch-action:manipulation;-webkit-user-select:none;user-select:none;-webk
 .group-body{padding:6px 16px 10px}
 .group-body .activity:last-child{border-bottom:0}
 @media(max-width:520px){.activity-group summary{padding:13px 12px;gap:7px}.group-title{font-size:13px}.group-total{font-size:12px;padding:4px 7px}.group-body{padding:4px 11px 8px}}
+.official-mark{display:block;width:96px;height:86px;object-fit:contain;mix-blend-mode:multiply}@media(max-width:520px){.official-mark{width:78px;height:72px}.header{padding-top:25px}}
+</style><style>
+/* Kompakt, centreret mobilheader uden afhængighed af et eksternt logo */
+.header{padding:20px 0 10px}
+.header .brand-lockup{gap:8px}
+.header .brand{font-size:38px;letter-spacing:-1.6px}
+.header .brand small{font-size:10px;letter-spacing:2.4px;margin-top:7px}
+.header .brand-tag{padding:3px 12px;font-size:10px;letter-spacing:2px}
+.header-line{margin-top:17px}
+.hero{padding:15px 0 26px}
+.hero .eyebrow{font-size:11px;letter-spacing:1.7px;margin-bottom:9px}
+.hero h1{font-size:clamp(26px,4vw,45px);font-weight:700;letter-spacing:-1px;line-height:1.12}
+.hero p{font-size:16px;line-height:1.45;margin:12px 0 0}
+.hero:after{width:280px;height:280px;right:-155px;top:8px;opacity:.44}
+@media(max-width:520px){
+ .header{padding:16px 0 8px}
+ .header .brand{font-size:32px}
+ .hero{padding:12px 0 22px}
+ .hero h1{font-size:clamp(25px,7.3vw,32px)}
+ .hero p{font-size:15px;margin-top:9px}
+ .hero:after{width:190px;height:190px;right:-105px;top:0}
+ .panel-inner{padding:18px!important}
+ .panel h2{font-size:26px}
+ .panel-intro{font-size:14px;margin:10px 0 20px}
+}
+/* Enkelt topdesign inspireret af Try & Hire */
+.header{padding:28px 0 14px}
+.header .brand-lockup{gap:9px}
+.header .brand{font-size:46px;font-weight:750;letter-spacing:-2px}
+.header .brand small{font-size:12px;letter-spacing:3.2px;font-weight:500;margin-top:9px}
+.header .brand-tag{background:transparent;border:0;border-radius:0;padding:0;font-size:22px;font-weight:600;letter-spacing:.6px;text-transform:none;color:var(--wine-dark)}
+.header-line{margin-top:20px}
+.main-grid{padding-top:18px}
+@media(max-width:520px){.header{padding:24px 0 8px}.header .brand{font-size:40px}.header .brand small{font-size:11px}.header .brand-tag{font-size:20px}.main-grid{padding-top:12px}}
+
+.page-heading{text-align:center;padding:9px 24px 16px}
+.page-heading h1{margin:0;font-size:clamp(23px,3.2vw,34px);font-weight:600;letter-spacing:-.6px;color:var(--wine-dark)}
+@media(max-width:520px){.page-heading{padding:8px 20px 16px}.page-heading h1{font-size:25px}.header-line{margin-top:13px}}
+/* Samme Career-brandopsaetning som Try & Hire */
+.header{padding:18px 0 8px;text-align:left}
+.header .brand-lockup{align-items:flex-start;gap:0}
+.header .brand{display:flex;flex-direction:column;font-size:39px;font-weight:730;letter-spacing:-2.2px;line-height:1;color:#873e35}
+.header .brand small{font-size:9px;font-weight:500;letter-spacing:1.8px;text-transform:uppercase;margin-top:7px;color:#85726b}
+.header-line{margin-top:18px}
+@media(max-width:520px){.header{padding:16px 0 7px}.header .brand{font-size:34px}.header-line{margin-top:14px}}
+
+/* Mobilens layout og titel følger Try & Hire med god luft i siderne */
+.price-intro{padding-top:28px;padding-bottom:28px;position:relative;overflow:hidden}
+.price-intro:after{content:"";position:absolute;z-index:-1;width:280px;height:280px;right:-160px;top:0;background:rgba(190,164,151,.18);border-radius:50%}
+.price-kicker{font-size:13px;letter-spacing:2.8px;font-weight:700;color:var(--wine-dark);margin-bottom:14px}
+.price-intro h1{font-size:clamp(32px,5vw,62px);line-height:1.08;letter-spacing:-1.7px;font-weight:720;color:var(--ink);margin:0}
+.price-intro h1 span{color:var(--clay)}
+.price-intro p{font-size:clamp(16px,1.9vw,23px);line-height:1.48;color:var(--muted);margin:18px 0 0;max-width:720px}
+@media(max-width:600px){
+ .wrap{padding-left:28px!important;padding-right:28px!important}
+ .price-intro{padding-top:24px;padding-bottom:24px}
+ .price-kicker{font-size:11px;letter-spacing:1.7px;line-height:1.5;overflow-wrap:anywhere}
+ .price-intro h1{font-size:clamp(29px,7.6vw,37px);letter-spacing:-1.1px;overflow-wrap:break-word}
+ .price-intro p{font-size:15px;line-height:1.5;margin-top:12px}
+ .panel-inner{padding:20px!important}
+ .panel h2{font-size:25px}
+ .main-grid{padding-top:2px}
+ .price-intro:after{right:-150px;width:240px;height:240px}
+}
 </style></head><body>
-<div class="wrap header"><div class="brand" role="img" aria-label="Career – a JKS Company">Career<small>a JKS Company</small></div><div class="header-line"></div></div>
-<section class="wrap hero"><div class="eyebrow">PRISSÆTNING AF REKRUTTERINGSOPGAVER</div><h1>Career <span class="accent">Price Setting</span> Tool</h1><p>Vælg rekrutteringsprodukt, tilpas forudsætningerne og få et overskueligt prisforslag med det samme.</p></section>
+<div class="wrap header"><div class="brand-lockup"><div class="brand">Career<small>a JKS Company</small></div></div><div class="header-line"></div></div>
+
+<section class="wrap price-intro"><div class="price-kicker">PRISSÆTNING AF REKRUTTERING</div><h1>Price Setting <span>Tool</span></h1><p>Beregn den rette pris på rekrutteringsopgaven – baseret på tidsforbrug, aktiviteter og omkostninger.</p></section>
 <main class="wrap main-grid"><section class="panel"><div class="panel-inner"><h2>Beregningsgrundlag</h2><p class="panel-intro">Tilpas tallene til den konkrete opgave. Resultatet opdateres automatisk.</p>
-<div class="section-head"><div class="section-no">01</div><div><div class="section-title">Vælg produkt</div><p class="section-sub">Fire typer rekrutteringsopgaver</p></div></div><div class="products" id="products"></div>
+<div class="section-head"><div class="section-no">01</div><div><div class="section-title">Vælg produkt</div></div></div><div class="products" id="products"></div>
 <div id="standard" class="section"><div class="section-head"><div class="section-no">02</div><div><div class="section-title">Timeforbrug og tillæg</div><p class="section-sub">Tilpas arbejdsopgaver, timepris og omkostninger</p></div></div><div class="inputs" id="standardFields"></div><div class="section" style="margin-top:20px"><div class="block-title">Opgaver og estimerede timer</div><p class="fineprint">Åbn en kategori for at tilpasse timer. Summen vises også, når kategorien er lukket.</p><div id="activities"></div></div><div class="section"><div class="section-head"><div class="section-no">03</div><div><div class="section-title">Justér tilbudsprisen</div><p class="section-sub">Valgfri rabat eller aftalt pris</p></div></div><div class="inputs" id="offerFields"></div></div></div>
 <div id="framework" class="section" hidden><div class="section-head"><div class="section-no">02</div><div><div class="section-title">Rammeaftale</div><p class="section-sub">Beregn pris på baggrund af medarbejderens samlede lønpakke</p></div></div><p class="block-title">Vælg løntype</p><div class="option-row"><button type="button" class="option" id="byHour">Timeløn</button><button type="button" class="option" id="byMonth">Månedsløn</button></div><div class="inputs" id="frameworkFields"></div><p class="fineprint" style="margin-top:15px">Ved timeløn omregnes til månedsløn ud fra antal timer pr. uge × 52 / 12. Pension og fritvalg beregnes begge af grundlønnen. Rekrutteringshonoraret beregnes af den årlige lønpakke inklusive pension og fritvalg.</p></div>
 </div></section><aside class="panel summary-card"><div class="summary-header"><h3>Prisoverblik</h3><p id="selectedName"></p></div><div class="summary-body"><div class="price-hero"><div>Anbefalet pris på opgaven</div><div class="big" id="totalPrice">0 kr.</div><div>Alle beløb ekskl. moms</div></div><div class="results" style="margin-top:22px" id="resultLines"></div><div class="note" id="notice"></div><div class="action-row"><button class="btn secondary" id="copy">Kopiér beregning</button><button class="btn primary" id="print">Udskriv / PDF</button></div><div class="action-row"><button class="btn reset-button" type="button" id="resetAll">↺ Nulstil alle felter</button></div><p class="footer-note">Internt prissætningsværktøj. Alle beregninger foretages i din browser. Kontroller forudsætninger og pris før tilbud til kunden.</p></div></aside></main>
@@ -311,7 +386,7 @@ let active=0;
 const da=new Intl.NumberFormat('da-DK',{maximumFractionDigits:2});const money=n=>new Intl.NumberFormat('da-DK',{style:'currency',currency:'DKK',maximumFractionDigits:0}).format(n);const fmt=n=>da.format(n);
 const val=s=>{let v=String(s).replace(/\s/g,'').replace(/\./g,'').replace(',','.');return Math.max(0,Number(v)||0)};
 const rows=(items)=>items.map(([k,v])=>`<div class="price-line"><span>${k}</span><strong>${v}</strong></div>`).join('');
-function field(label,obj,key,step,unit='kr.',action=calculate){const id='f'+key+'_'+Math.random().toString(36).slice(2,9);const wrap=document.createElement('div');wrap.className='numfield';wrap.innerHTML=`<label for="${id}">${label}</label><div class="numrow"><button type="button" aria-label="Reducer ${label}">−</button><input id="${id}" inputmode="decimal"><button type="button" aria-label="Forøg ${label}">+</button></div>`;const input=wrap.querySelector('input');const set=()=>input.value=(obj[key]===null?'':fmt(obj[key]));set();input.addEventListener('input',()=>{obj[key]=(key==='rate' && input.value.trim()==='')?null:val(input.value);action()});input.addEventListener('blur',set);wrap.querySelectorAll('button').forEach((b,i)=>b.addEventListener('click',()=>{obj[key]=Math.max(0,Math.round(((obj[key]??0)+step*(i?1:-1))*100)/100);set();action()}));return wrap}
+function field(label,obj,key,step,unit='kr.',action=calculate){const id='f'+key+'_'+Math.random().toString(36).slice(2,9);const wrap=document.createElement('div');wrap.className='numfield';wrap.innerHTML=`<label for="${id}">${label}</label><div class="numrow"><button type="button" aria-label="Reducer ${label}">−</button><input id="${id}" inputmode="decimal"><button type="button" aria-label="Forøg ${label}">+</button></div>`;const input=wrap.querySelector('input');const set=()=>input.value=(obj[key]===null?'':fmt(obj[key]));set();input.addEventListener('input',()=>{obj[key]=input.value.trim()===''?null:val(input.value);action()});input.addEventListener('blur',set);wrap.querySelectorAll('button').forEach((b,i)=>b.addEventListener('click',()=>{obj[key]=Math.max(0,Math.round(((obj[key]??0)+step*(i?1:-1))*100)/100);set();action()}));return wrap}
 function productButtons(){const el=document.getElementById('products');el.replaceChildren();products.forEach((name,i)=>{const b=document.createElement('button');b.className='choice'+(i===active?' active':'');b.textContent=name;b.type='button';b.setAttribute('aria-pressed',String(i===active));b.onclick=()=>{active=i;render()};el.append(b)})}
 const categories=[
   {name:'Forberedelse og opstart',indexes:[0,1,2]},
@@ -351,16 +426,16 @@ function activitiesUI(){
 }
 function standardUI(){const d=standard[active],inputs=document.getElementById('standardFields');inputs.replaceChildren(field('Konsulenttimepris',d,'rate',25),field('Testværktøjer',d,'test',500),field('Stillingsannoncer',d,'posting',500),field('Øvrige omkostninger',d,'other',250));document.getElementById('offerFields').replaceChildren(field('Rabat (%)',d,'discount',1,'%'),field('Manuel tilbudspris',d,'manual',500));activitiesUI()}
 function frameUI(){document.getElementById('byHour').classList.toggle('selected',frame.mode==='hour');document.getElementById('byMonth').classList.toggle('selected',frame.mode==='month');document.getElementById('frameworkFields').replaceChildren(...(frame.mode==='hour'?[field('Timeløn (kr.)',frame,'hourly',5),field('Timer pr. uge',frame,'weekHours',.5,'timer')]:[field('Månedsløn (kr.)',frame,'monthly',500)]),field('Pension (%)',frame,'pension',.5,'%'),field('Fritvalg (%)',frame,'free',.5,'%'),field('Rekrutteringshonorar (%)',frame,'fee',.5,'%'),field('Øvrige tillæg (kr.)',frame,'extras',500))}
-function calculate(){let items,price,note;if(active===3){const salary=frame.mode==='hour'?frame.hourly*frame.weekHours*52/12:frame.monthly;const pension=salary*frame.pension/100;const free=salary*frame.free/100;const pack=salary+pension+free;const annual=pack*12;const fee=annual*frame.fee/100;price=fee+frame.extras;items=[['Månedsløn',money(salary)],['Pension',money(pension)],['Fritvalg',money(free)],['Samlet månedlig lønpakke',money(pack)],['Årlig lønpakke (× 12)',money(annual)],['Rekrutteringshonorar',money(fee)],['Øvrige tillæg',money(frame.extras)]];note='Rekrutteringshonorar = årlig samlet lønpakke × honorarprocent. Øvrige tillæg lægges til.';document.getElementById('totalPrice').textContent=money(price);document.getElementById('resultLines').innerHTML=rows(items);document.getElementById('notice').textContent=note;return {price,items}}else{let d=standard[active];let hours=d.activities.reduce((a,b)=>a+b,0),needsRate=d.rate===null||d.rate<=0,process=hours*(d.rate??0),extras=d.test+d.posting+d.other,gross=process+extras,discount=gross*Math.min(d.discount,100)/100;price=needsRate?null:(d.manual>0?d.manual:gross-discount);items=[['Estimeret tidsforbrug',fmt(hours)+' timer'],['Konsulenttimepris',needsRate?'Afventer indtastning':money(d.rate)],['Procespris',money(process)],['Testværktøjer',money(d.test)],['Annoncer og øvrige tillæg',money(d.posting+d.other)],['Rabat',money(discount)],['Tilbudspris',price===null?'Afventer timepris':money(price)]];note=needsRate?'Start med at indtaste konsulenttimeprisen for at beregne et prisforslag.':(d.manual>0?'Den manuelle tilbudspris overstyrer beregnet pris og rabat.':'Tilpas aktiviteter og tillæg til den konkrete rekrutteringsopgave.')}document.getElementById('totalPrice').textContent=price===null?'Indtast timepris':money(price);document.getElementById('resultLines').innerHTML=rows(items);document.getElementById('notice').textContent=note;return {price,items}}
+function calculate(){let items,price,note;if(active===3){const salary=frame.mode==='hour'?(frame.hourly??0)*(frame.weekHours??0)*52/12:(frame.monthly??0);const pension=salary*(frame.pension??0)/100;const free=salary*(frame.free??0)/100;const pack=salary+pension+free;const annual=pack*12;const fee=annual*(frame.fee??0)/100;price=(salary>0 && frame.fee!==null)?fee+(frame.extras??0):null;items=[['Månedsløn',money(salary)],['Pension',money(pension)],['Fritvalg',money(free)],['Samlet månedlig lønpakke',money(pack)],['Årlig lønpakke (× 12)',money(annual)],['Rekrutteringshonorar',money(fee)],['Øvrige tillæg',money(frame.extras??0)]];note='Rekrutteringshonorar = årlig samlet lønpakke × honorarprocent. Øvrige tillæg lægges til.';document.getElementById('totalPrice').textContent=price===null?'Indtast løn og honorar':money(price);document.getElementById('resultLines').innerHTML=rows(items);document.getElementById('notice').textContent=note;return {price,items}}else{let d=standard[active];let hours=d.activities.reduce((a,b)=>a+(b??0),0),needsRate=d.rate===null||d.rate<=0,process=hours*(d.rate??0),extras=(d.test??0)+(d.posting??0)+(d.other??0),gross=process+extras,discount=gross*Math.min(d.discount??0,100)/100;price=needsRate?null:(d.manual>0?d.manual:gross-discount);items=[['Estimeret tidsforbrug',fmt(hours)+' timer'],['Konsulenttimepris',needsRate?'Afventer indtastning':money(d.rate)],['Procespris',money(process)],['Testværktøjer',money(d.test??0)],['Annoncer og øvrige tillæg',money((d.posting??0)+(d.other??0))],['Rabat',money(discount)],['Tilbudspris',price===null?'Afventer timepris':money(price)]];note=needsRate?'Start med at indtaste konsulenttimeprisen for at beregne et prisforslag.':(d.manual>0?'Den manuelle tilbudspris overstyrer beregnet pris og rabat.':'Tilpas aktiviteter og tillæg til den konkrete rekrutteringsopgave.')}document.getElementById('totalPrice').textContent=price===null?'Indtast timepris':money(price);document.getElementById('resultLines').innerHTML=rows(items);document.getElementById('notice').textContent=note;return {price,items}}
 function render(){productButtons();document.getElementById('standard').hidden=active===3;document.getElementById('framework').hidden=active!==3;document.getElementById('selectedName').textContent=products[active];if(active===3)frameUI();else standardUI();calculate()}
 document.addEventListener('dblclick',e=>{if(e.target.closest('button'))e.preventDefault()});
 document.getElementById('resetAll').onclick=()=>{
   if(!window.confirm('Vil du nulstille alle felter og starte en ny beregning?'))return;
   standard.forEach((d,i)=>Object.assign(d,{
-    activities:initial[i].slice(),rate:null,test:i===0?500:0,posting:i===0?3500:0,
-    other:0,discount:0,manual:0
+    activities:initial[i].map(()=>null),rate:null,test:null,posting:null,
+    other:null,discount:null,manual:null
   }));
-  Object.assign(frame,{mode:'month',hourly:200,monthly:35000,weekHours:37,pension:10,free:9,fee:15,extras:0});
+  Object.assign(frame,{mode:'month',hourly:null,monthly:null,weekHours:null,pension:null,free:null,fee:null,extras:null});
   Object.keys(openedCategories).forEach(key=>delete openedCategories[key]);
   active=0;
   render();
